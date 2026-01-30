@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Aim Sense FF</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="manifest" href="manifest.json">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Aim Sense FF">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<style>
+body {
+  background:#0b1120;
+  color:#ffffff;
+  font-family: Arial, sans-serif;
+  text-align:center;
+  padding:20px;
+}
+h1 { color:#22c55e; }
+input, select, button {
+  width:90%;
+  padding:14px;
+  margin:8px 0;
+  border-radius:12px;
+  border:none;
+  font-size:16px;
+}
+button {
+  background:#22c55e;
+  font-weight:bold;
+}
+.box {
+  background:#111827;
+  padding:16px;
+  border-radius:12px;
+  margin-top:15px;
+}
+small { color:#9ca3af; }
+</style>
+</head>
+
+<body>
+
+<h1>🎯 Aim Sense FF</h1>
+<small>Gerador de Sensibilidade</small>
+
+<select id="modo">
+  <option value="safe">🟢 Modo SAFE</option>
+  <option value="pro">🔥 Modo PRO</option>
+</select>
+
+<select id="hs">
+  <option value="normal">🎯 Mira normal</option>
+  <option value="hs">💥 Subir capa</option>
+</select>
+
+<input type="number" id="dpi" placeholder="Digite o DPI do celular">
+
+<button onclick="gerar()">GERAR SENSIBILIDADE</button>
+
+<div class="box" id="resultado">
+  <small>Digite o DPI e gere sua sensibilidade</small>
+</div>
+
+<script>
+function gerar() {
+  let dpi = Number(document.getElementById("dpi").value);
+  let modo = document.getElementById("modo").value;
+  let hs = document.getElementById("hs").value;
+
+  if (!dpi || dpi < 200) {
+    document.getElementById("resultado").innerHTML = "<small>DPI inválido</small>";
+    return;
+  }
+
+  let base = dpi <= 400 ? 85 : dpi <= 600 ? 90 : 95;
+  let boost = modo === "pro" ? 5 : 0;
+  let hsBoost = hs === "hs" ? 7 : 0;
+
+  document.getElementById("resultado").innerHTML = `
+    <h3>🔥 Sensibilidade Gerada</h3>
+    Geral: <b>${base + boost + hsBoost}</b><br>
+    Red Dot: <b>${base - 5 + boost + hsBoost}</b><br>
+    Mira 2x: <b>${base - 15 + boost + hsBoost}</b><br>
+    Mira 4x: <b>${base - 25 + boost + hsBoost}</b><br>
+    AWM: <b>${base - 40 + boost}</b><br>
+    Olhadinha: <b>${base - 30 + boost}</b><br>
+    <small>Configure manualmente no Free Fire</small>
+  `;
+}
+</script>
+
+</body>
+</html>
